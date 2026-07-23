@@ -1,4 +1,4 @@
-package com.saas.subscription.subscription.subscriptioncore.controller;
+package com.saas.subscription.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

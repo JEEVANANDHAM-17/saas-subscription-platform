@@ -1,12 +1,9 @@
-package com.example.jeevanandham.subscription;
+package com.saas.subscription;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages = {
-		"com.example.jeevanandham.subscription",
-		"com.saas.subscription.subscription"
-})
+@SpringBootApplication
 public class Application {
 
 	public static void main(String[] args) {

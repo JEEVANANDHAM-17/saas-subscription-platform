@@ -1,1 +1,1 @@
-rootProject.name = "jeevanandham.subscription"
+rootProject.name = "saas-subscription-service"
