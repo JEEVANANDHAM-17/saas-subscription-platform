@@ -9,10 +9,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import org.hibernate.annotations.Check;
 import org.springframework.data.annotation.CreatedDate;
 
 @Entity
+@Table(name = "InvoiceTable")
 public class InvoiceTable {
 
     public enum InvoiceStatusEnum
@@ -26,36 +28,38 @@ public class InvoiceTable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "InvoiceID")
     private long InvoiceID;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "CustomerID", nullable = false)
     private CustomerTable CustomerID;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "subscription_id", nullable = false)
+    @JoinColumn(name = "SubscriptionID", nullable = false)
     private SubscriptionsTable SubscriptionID;
 
-    @Column(length = 50, nullable = false, unique = true)
+    @Column(name = "InvoiceNumber", length = 50, nullable = false, unique = true)
     private String InvoiceNumber;
 
-    @Check(constraints = "amount >= 0")
-    @Column(nullable = false)
+    @Check(constraints = "Amount >= 0")
+    @Column(name = "Amount", nullable = false)
     private double Amount; //check like sql decimal(19,4)
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "InvoiceStatus", nullable = false)
     private InvoiceStatusEnum InvoiceStatus;
 
     @CreatedDate
-    @Column(nullable = false)
+    @Column(name = "InvoiceCreatedDate", nullable = false)
     private long InvoiceCreatedDate;
 
-    @Column(nullable = false)
+    @Column(name = "InvoiceUpdateDate", nullable = false)
     private long InvoiceUpdateDate;
 
-    @Column(nullable = false)
+    @Column(name = "InvoiceDueDate", nullable = false)
     private long InvoiceDueDate;
 
+    @Column(name = "InvoicePaidDate")
     private long InvoicePaidDate;
 }

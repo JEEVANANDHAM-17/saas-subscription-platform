@@ -9,9 +9,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import org.hibernate.annotations.Check;
 
 @Entity
+@Table(name = "PaymentsTable")
 public class PaymentsTable {
 
     public enum PaymentMethodEnum
@@ -23,34 +25,36 @@ public class PaymentsTable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "PaymentID")
     private long PaymentID;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "invoice_id", nullable = false)
+    @JoinColumn(name = "InvoiceID", nullable = false)
     private InvoiceTable InvoiceID;
 
-    @Column(length = 100, nullable = false, unique = true)
+    @Column(name = "IdempotencyKey", length = 100, nullable = false, unique = true)
     private String IdempotencyKey;
 
-    @Column(length = 100, unique = true)
+    @Column(name = "PaymentTransactionReference", length = 100, unique = true)
     private String PaymentTransactionReference;
 
-    @Check(constraints = "amount > 0")
-    @Column(nullable = false)
+    @Check(constraints = "Amount > 0")
+    @Column(name = "Amount", nullable = false)
     private double Amount;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "PaymentMethod", nullable = false)
     private PaymentMethodEnum PaymentMethod;
 
-    @Column(length = 500)
+    @Column(name = "PaymentFailureReason", length = 500)
     private String PaymentFailureReason;
 
+    @Column(name = "PaymentPaidDate")
     private long PaymentPaidDate;
 
-    @Column(nullable = false)
+    @Column(name = "PaymentCreatedDate", nullable = false)
     private long PaymentCreatedDate;
 
-    @Column(nullable = false)
+    @Column(name = "PaymentUpdateDate", nullable = false)
     private long PaymentUpdateDate;
 }

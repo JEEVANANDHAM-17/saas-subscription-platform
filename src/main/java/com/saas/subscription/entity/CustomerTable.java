@@ -8,11 +8,13 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
+@Table(name = "CustomerTable")
 @EntityListeners(AuditingEntityListener.class)
 public class CustomerTable {
 
@@ -23,30 +25,31 @@ public class CustomerTable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "CustomerID")
     private long CustomerID;
 
-    @Column(length = 200, nullable = false)
+    @Column(name = "CustomerName", length = 200, nullable = false)
     private String CustomerName;
 
-    @Column(length = 255, nullable = false, unique = true)
+    @Column(name = "CustomerEmail", length = 255, nullable = false, unique = true)
     private String CustomerEmail;
 
-    @Column(length = 30)
+    @Column(name = "CustomerPhone", length = 30)
     private long CustomerPhone;
 
-    @Column(length = 255)
+    @Column(name = "CustomerBillingAddress", length = 255)
     private String CustomerBillingAddress;
     // For First release it will be json and future it will referenced to another table
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "CustomerStatus", nullable = false)
     private CustomerStatusEnum CustomerStatus = CustomerStatusEnum.ACTIVE;
 
-    @Column(nullable = false, updatable = false)
+    @Column(name = "CustomerCreatedTime", nullable = false, updatable = false)
     @CreatedDate
     private long CustomerCreatedTime;
 
-    @Column(nullable = false)
+    @Column(name = "CustomerLastUpdateTime", nullable = false)
     @LastModifiedDate
     private long CustomerLastUpdateTime;
 }
