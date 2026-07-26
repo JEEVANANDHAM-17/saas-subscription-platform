@@ -13,23 +13,25 @@ public class UsersTable {
 //    @Column(unique = true)
 //    private String uuid;
 
-    @Column(length = 100)
+    @Column(length = 100, nullable = false)
     private String FirstName;
 
     @Column(length = 100)
     private String LastName;
 
-    @Column(length = 255, unique = true)
+    @Column(length = 255, nullable = false, unique = true)
     private String UserEmail;
 
-    @Column(length = 255)
+    @Column(length = 255, nullable = false)
     private String PasswordHash;
 
 //    private String UserStatus;
 
     @CreatedDate
+    @Column(nullable = false)
     private long UserCreateTime;
 
+    @Column(nullable = false)
     private long UserLastUpdatedTime;
 
 //    private int Version;  Thinging why I write this...

@@ -20,8 +20,10 @@ repositories {
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-webmvc")
+	implementation("org.springframework.boot:spring-boot-starter-flyway")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.mysql:mysql-connector-j")
+	runtimeOnly("org.flywaydb:flyway-mysql")
 	testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
 	testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")

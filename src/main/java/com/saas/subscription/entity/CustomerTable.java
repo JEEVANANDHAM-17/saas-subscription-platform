@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -20,12 +22,13 @@ public class CustomerTable {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long CustomerID;
 
-    @Column(length = 200)
+    @Column(length = 200, nullable = false)
     private String CustomerName;
 
-    @Column(length = 255, unique = true)
+    @Column(length = 255, nullable = false, unique = true)
     private String CustomerEmail;
 
     @Column(length = 30)
