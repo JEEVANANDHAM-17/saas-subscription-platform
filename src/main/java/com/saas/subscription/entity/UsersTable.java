@@ -1,10 +1,16 @@
 package com.saas.subscription.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 @Entity
 @Table(name = "UsersTable")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class UsersTable {
 
     @Id
