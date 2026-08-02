@@ -22,25 +22,25 @@ public class UsersTable {
 //    private String uuid;
 
     @Column(name = "FirstName", length = 100, nullable = false)
-    private String FirstName;
+    private String firstName;
 
     @Column(name = "LastName", length = 100)
-    private String LastName;
+    private String lastName;
 
     @Column(name = "UserEmail", length = 255, nullable = false, unique = true)
-    private String UserEmail;
+    private String userEmail;
 
     @Column(name = "PasswordHash", length = 255, nullable = false)
-    private String PasswordHash;
+    private String passwordHash;
 
 //    private String UserStatus;
 
     @CreatedDate
     @Column(name = "UserCreateTime", nullable = false)
-    private long UserCreateTime;
+    private long userCreateTime;
 
     @Column(name = "UserLastUpdatedTime", nullable = false)
-    private long UserLastUpdatedTime;
+    private long userLastUpdatedTime;
 
 //    private int Version;  Thinging why I write this...
 

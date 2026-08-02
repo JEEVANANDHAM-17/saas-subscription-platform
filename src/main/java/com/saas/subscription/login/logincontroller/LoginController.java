@@ -1,5 +1,7 @@
 package com.saas.subscription.login.logincontroller;
 
+import com.saas.subscription.login.logindto.UserLoginRequest;
+import com.saas.subscription.login.logindto.UserLoginResponse;
 import com.saas.subscription.login.logindto.UserSignupRequest;
 import com.saas.subscription.login.logindto.UserSignupResponse;
 import com.saas.subscription.login.loginservice.LoginService;
@@ -17,10 +19,17 @@ public class LoginController {
     private final LoginService loginService;
 
     @PostMapping("/signup")
-    public ResponseEntity<UserSignupResponse> userSignUP(@Validated @RequestBody UserSignupRequest userLoginRequest) {
+    public ResponseEntity<UserSignupResponse> userSignUP(@Validated @RequestBody UserSignupRequest userSignupRequest) {
 
-        loginService.userSignUP(userLoginRequest);
+        loginService.userSignUP(userSignupRequest);
 
         return ResponseEntity.ok(new UserSignupResponse(true, "Signup sucessful"));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UserLoginResponse> userLogin(
+            @Validated @RequestBody UserLoginRequest userLoginRequest
+    ) {
+        return ResponseEntity.ok(loginService.userLogin(userLoginRequest));
     }
 }
