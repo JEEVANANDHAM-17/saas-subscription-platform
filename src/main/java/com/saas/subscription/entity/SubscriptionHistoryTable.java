@@ -16,27 +16,27 @@ public class SubscriptionHistoryTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SubscriptionHistoryID")
-    private long SubscriptionHistoryID;
+    private long subscriptionHistoryID;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "SubscriptionID", nullable = false)
-    private SubscriptionsTable SubscriptionID;
+    private SubscriptionsTable subscriptionID;
 
     @Column(name = "OldPlanId")
-    private long OldPlanId;
+    private long oldPlanId;
 
     @Column(name = "NewPlanId")
-    private long NewPlanId;
+    private long newPlanId;
 
     @Column(name = "ChangeType", nullable = false)
-    private int ChangeType;
+    private int changeType;
 
     @Column(name = "ChangedDate", nullable = false)
-    private long ChangedDate;
+    private long changedDate;
 
     @Column(name = "ProrationAmount")
-    private double ProrationAmount;
+    private double prorationAmount;
 
     @Column(name = "SubscriptionChangedTime")
-    private long SubscriptionChangedTime;
+    private long subscriptionChangedTime;
 }

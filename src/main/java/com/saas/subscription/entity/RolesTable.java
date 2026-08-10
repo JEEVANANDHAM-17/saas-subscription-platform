@@ -11,7 +11,7 @@ public class RolesTable {
 
     @Id
     @Column(name = "RoleID")
-    private int RoleID;
+    private int roleID;
 
     @Column(name = "name", length = 50)
     private String name;

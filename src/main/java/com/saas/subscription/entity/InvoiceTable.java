@@ -29,37 +29,37 @@ public class InvoiceTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "InvoiceID")
-    private long InvoiceID;
+    private long invoiceID;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "CustomerID", nullable = false)
-    private CustomerTable CustomerID;
+    private CustomerTable customerID;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "SubscriptionID", nullable = false)
-    private SubscriptionsTable SubscriptionID;
+    private SubscriptionsTable subscriptionID;
 
     @Column(name = "InvoiceNumber", length = 50, nullable = false, unique = true)
-    private String InvoiceNumber;
+    private String invoiceNumber;
 
     @Check(constraints = "Amount >= 0")
     @Column(name = "Amount", nullable = false)
-    private double Amount; //check like sql decimal(19,4)
+    private double amount; //check like sql decimal(19,4)
 
     @Enumerated(EnumType.STRING)
     @Column(name = "InvoiceStatus", nullable = false)
-    private InvoiceStatusEnum InvoiceStatus;
+    private InvoiceStatusEnum invoiceStatus;
 
     @CreatedDate
     @Column(name = "InvoiceCreatedDate", nullable = false)
-    private long InvoiceCreatedDate;
+    private long invoiceCreatedDate;
 
     @Column(name = "InvoiceUpdateDate", nullable = false)
-    private long InvoiceUpdateDate;
+    private long invoiceUpdateDate;
 
     @Column(name = "InvoiceDueDate", nullable = false)
-    private long InvoiceDueDate;
+    private long invoiceDueDate;
 
     @Column(name = "InvoicePaidDate")
-    private long InvoicePaidDate;
+    private long invoicePaidDate;
 }

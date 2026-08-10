@@ -26,35 +26,35 @@ public class PaymentsTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PaymentID")
-    private long PaymentID;
+    private long paymentID;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "InvoiceID", nullable = false)
-    private InvoiceTable InvoiceID;
+    private InvoiceTable invoiceID;
 
     @Column(name = "IdempotencyKey", length = 100, nullable = false, unique = true)
-    private String IdempotencyKey;
+    private String idempotencyKey;
 
     @Column(name = "PaymentTransactionReference", length = 100, unique = true)
-    private String PaymentTransactionReference;
+    private String paymentTransactionReference;
 
     @Check(constraints = "Amount > 0")
     @Column(name = "Amount", nullable = false)
-    private double Amount;
+    private double amount;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "PaymentMethod", nullable = false)
-    private PaymentMethodEnum PaymentMethod;
+    private PaymentMethodEnum paymentMethod;
 
     @Column(name = "PaymentFailureReason", length = 500)
-    private String PaymentFailureReason;
+    private String paymentFailureReason;
 
     @Column(name = "PaymentPaidDate")
-    private long PaymentPaidDate;
+    private long paymentPaidDate;
 
     @Column(name = "PaymentCreatedDate", nullable = false)
-    private long PaymentCreatedDate;
+    private long paymentCreatedDate;
 
     @Column(name = "PaymentUpdateDate", nullable = false)
-    private long PaymentUpdateDate;
+    private long paymentUpdateDate;
 }

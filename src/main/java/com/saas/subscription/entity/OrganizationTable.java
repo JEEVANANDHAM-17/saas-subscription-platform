@@ -12,7 +12,7 @@ public class OrganizationTable {
 
     @Id
     @Column(name = "OrganizationID")
-    private long OrganizationID;
+    private long organizationID;
 
     @Column(name = "name", length = 200)
     private String name;
@@ -21,5 +21,5 @@ public class OrganizationTable {
 
     @Column(name = "OrganizationCreatedTime", nullable = false, updatable = false)
     @CreatedDate
-    private long OrganizationCreatedTime;
+    private long organizationCreatedTime;
 }

@@ -8,11 +8,19 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "PlansTable")
 public class PlansTable {
 
@@ -30,40 +38,39 @@ public class PlansTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PlanID")
-    private long PlanID;
-
-    @Column(name = "PublicID", length = 36, nullable = false, unique = true)
-    private String PublicID;
+    private long planID;
 
     @Column(name = "PlanCode", length = 50, nullable = false, unique = true)
-    private String PlanCode;
+    private String planCode;
 
     @Column(name = "PlanName", length = 100, nullable = false)
-    private String PlanName;
+    private String planName;
 
     @Column(name = "PlanDescription", length = 500)
-    private String PlanDescription;
+    private String planDescription;
 
     @Column(name = "PlanPrice", precision = 19, scale = 4, nullable = false)
-    private BigDecimal PlanPrice;
+    private BigDecimal planPrice;
 
-    @Column(name = "Currency", length = 3, nullable = false)
-    private String Currency;
+//    @Column(name = "Currency", length = 3, nullable = false)
+//    private String currency; for now currency is not needed.
 
     @Enumerated(EnumType.STRING)
     @Column(name = "BillingInterval", nullable = false)
-    private BillingIntervalEnum BillingInterval;
+    private BillingIntervalEnum billingInterval;
 
     @Column(name = "TrialDays", nullable = false)
-    private int TrialDays;
+    private int trialDays;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "PlanStatus", nullable = false)
-    private PlanStatusEnum PlanStatus = PlanStatusEnum.DRAFT;
+    private PlanStatusEnum planStatus = PlanStatusEnum.DRAFT;
 
     @Column(name = "PlanCreatedTime", nullable = false, updatable = false)
-    private LocalDateTime PlanCreatedTime;
+    @CreationTimestamp
+    private LocalDateTime planCreatedTime;
 
     @Column(name = "PlanLastUpdatedTime", nullable = false)
-    private LocalDateTime PlanLastUpdatedTime;
+    @UpdateTimestamp
+    private LocalDateTime planLastUpdatedTime;
 }

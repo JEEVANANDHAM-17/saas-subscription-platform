@@ -16,7 +16,7 @@ public class UsersTable {
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     @Column(name = "UserID")
-    private long UserID;
+    private long userID;
 
 //    @Column(unique = true)
 //    private String uuid;
@@ -33,7 +33,7 @@ public class UsersTable {
     @Column(name = "PasswordHash", length = 255, nullable = false)
     private String passwordHash;
 
-//    private String UserStatus;
+//    private String userStatus;
 
     @CreatedDate
     @Column(name = "UserCreateTime", nullable = false)
@@ -42,6 +42,6 @@ public class UsersTable {
     @Column(name = "UserLastUpdatedTime", nullable = false)
     private long userLastUpdatedTime;
 
-//    private int Version;  Thinging why I write this...
+//    private int version;  Thinging why I write this...
 
 }

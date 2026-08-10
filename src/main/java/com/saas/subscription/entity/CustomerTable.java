@@ -26,30 +26,30 @@ public class CustomerTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CustomerID")
-    private long CustomerID;
+    private long customerID;
 
     @Column(name = "CustomerName", length = 200, nullable = false)
-    private String CustomerName;
+    private String customerName;
 
     @Column(name = "CustomerEmail", length = 255, nullable = false, unique = true)
-    private String CustomerEmail;
+    private String customerEmail;
 
     @Column(name = "CustomerPhone", length = 30)
-    private long CustomerPhone;
+    private long customerPhone;
 
     @Column(name = "CustomerBillingAddress", length = 255)
-    private String CustomerBillingAddress;
+    private String customerBillingAddress;
     // For First release it will be json and future it will referenced to another table
 
     @Enumerated(EnumType.STRING)
     @Column(name = "CustomerStatus", nullable = false)
-    private CustomerStatusEnum CustomerStatus = CustomerStatusEnum.ACTIVE;
+    private CustomerStatusEnum customerStatus = CustomerStatusEnum.ACTIVE;
 
     @Column(name = "CustomerCreatedTime", nullable = false, updatable = false)
     @CreatedDate
-    private long CustomerCreatedTime;
+    private long customerCreatedTime;
 
     @Column(name = "CustomerLastUpdateTime", nullable = false)
     @LastModifiedDate
-    private long CustomerLastUpdateTime;
+    private long customerLastUpdateTime;
 }
