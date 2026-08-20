@@ -1,11 +1,13 @@
 package com.saas.subscription.login.logincontroller;
 
+import com.saas.subscription.common.dto.ApiResponse;
 import com.saas.subscription.login.logindto.UserLoginRequest;
 import com.saas.subscription.login.logindto.UserLoginResponse;
 import com.saas.subscription.login.logindto.UserSignupRequest;
 import com.saas.subscription.login.logindto.UserSignupResponse;
 import com.saas.subscription.login.loginservice.LoginService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,9 +29,12 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserLoginResponse> userLogin(
-            @Validated @RequestBody UserLoginRequest userLoginRequest
-    ) {
-        return ResponseEntity.ok(loginService.userLogin(userLoginRequest));
+    public ResponseEntity<ApiResponse<UserLoginResponse>> userLogin(
+            @Validated @RequestBody UserLoginRequest userLoginRequest)
+    {
+
+        UserLoginResponse loginResponse = loginService.userLogin(userLoginRequest);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiResponse<>(201, loginResponse));
     }
 }
