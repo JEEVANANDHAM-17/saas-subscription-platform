@@ -4,12 +4,9 @@ import com.saas.subscription.entity.UsersTable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
-import org.springframework.security.oauth2.jwt.JwsHeader;
-import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.JwtClaimsSet;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import org.springframework.security.oauth2.jwt.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.support.ResourceTransactionManager;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -21,6 +18,7 @@ public class JwtService {
     private final PasswordEncoder passwordEncoder;
     private final JwtEncoder jwtEncoder;
     private final JwtProperties jwtProperties;
+    private final JwtDecoder jwtDecoder;
 
     public String encodePassword(String password) {
         return passwordEncoder.encode(password);
@@ -56,5 +54,12 @@ public class JwtService {
                 "Bearer",
                 jwtProperties.accessTokenTtl().toSeconds()
         );
+    }
+
+    public UsersTable validateJWTToken(String jwtToken)
+    {
+        Jwt jwt = jwtDecoder.decode(jwtToken);
+
+        return null;
     }
 }
