@@ -4,7 +4,9 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 
 import javax.crypto.SecretKey;
@@ -33,6 +35,25 @@ class JwtConfiguration {
         SecretKey secretKey = new SecretKeySpec(secretBytes, "HmacSHA256");
         return NimbusJwtEncoder.withSecretKey(secretKey)
                 .algorithm(MacAlgorithm.HS256)
+                .build();
+    }
+
+    @Bean
+    JwtDecoder jwtDecoder(JwtProperties properties) {
+        byte[] secretBytes;
+        try {
+            secretBytes = Base64.getDecoder().decode(properties.secret());
+        } catch (IllegalArgumentException exception) {
+            throw new IllegalStateException("app.jwt.secret must be valid Base64", exception);
+        }
+
+        if (secretBytes.length < MINIMUM_SECRET_BYTES) {
+            throw new IllegalStateException("app.jwt.secret must contain at least 32 bytes");
+        }
+
+        SecretKey secretKey = new SecretKeySpec(secretBytes, "HmacSHA256");
+        return NimbusJwtDecoder.withSecretKey(secretKey)
+                .macAlgorithm(MacAlgorithm.HS256)
                 .build();
     }
 }
