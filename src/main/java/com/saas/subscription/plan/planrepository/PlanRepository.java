@@ -1,4 +1,4 @@
-package com.saas.subscription.login.plan.planrepository;
+package com.saas.subscription.plan.planrepository;
 
 import com.saas.subscription.entity.PlansTable;
 import org.springframework.data.jpa.repository.JpaRepository;
