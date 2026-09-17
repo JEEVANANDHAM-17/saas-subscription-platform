@@ -1,4 +1,4 @@
-package com.saas.subscription.login.plan.plandto;
+package com.saas.subscription.plan.plandto;
 
 import com.saas.subscription.entity.PlansTable;
 import jakarta.validation.constraints.NotNull;

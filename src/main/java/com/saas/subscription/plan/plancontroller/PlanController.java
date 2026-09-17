@@ -1,9 +1,8 @@
-package com.saas.subscription.login.plan.plancontroller;
+package com.saas.subscription.plan.plancontroller;
 
-import com.saas.subscription.login.logindto.UserSignupResponse;
-import com.saas.subscription.login.plan.plandto.PlanCreatedResponse;
-import com.saas.subscription.login.plan.plandto.PlanCreationRequest;
-import com.saas.subscription.login.plan.planservice.PlanService;
+import com.saas.subscription.plan.plandto.PlanCreatedResponse;
+import com.saas.subscription.plan.plandto.PlanCreationRequest;
+import com.saas.subscription.plan.planservice.PlanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
