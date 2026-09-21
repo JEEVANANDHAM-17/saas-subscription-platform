@@ -23,6 +23,7 @@ public class PlanService {
                 .planName(planCreationRequest.getPlanName())
                 .planPrice(BigDecimal.valueOf(planCreationRequest.getPlanPrice()))
                 .planStatus(planCreationRequest.getPlanStatus())
+                .trialDays(planCreationRequest.getTrialDays())
                 .build();
 
         planRepository.save(plansTable);
