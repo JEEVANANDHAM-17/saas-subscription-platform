@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import org.springframework.security.oauth2.jwt.JwtValidationException;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 
 import javax.crypto.SecretKey;
@@ -28,6 +29,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class JwtServiceTests {
 
@@ -54,6 +56,26 @@ class JwtServiceTests {
         assertThat(decoded.getSubject()).isEqualTo("42");
         assertThat(decoded.getIssuer().toString()).isEqualTo(ISSUER);
         assertThat(decoded.getExpiresAt()).isAfter(decoded.getIssuedAt());
+    }
+
+    @Test
+    void configuredDecoderAcceptsOwnTokensAndRejectsOtherIssuers() {
+        JwtProperties properties = properties("https://api.jeevanandham.subscription");
+        JwtProperties otherIssuer = properties("https://someone-else.example");
+        JwtConfiguration configuration = new JwtConfiguration();
+        UsersTable user = UsersTable.builder()
+                .userID(7L)
+                .userEmail("user@example.com")
+                .build();
+
+        String ownToken = new JwtService(new BCryptPasswordEncoder(), configuration.jwtEncoder(properties), properties)
+                .generateJWTToken(user).accessToken();
+        String foreignToken = new JwtService(new BCryptPasswordEncoder(), configuration.jwtEncoder(otherIssuer), otherIssuer)
+                .generateJWTToken(user).accessToken();
+        JwtDecoder decoder = configuration.jwtDecoder(properties);
+
+        assertThat(decoder.decode(ownToken).getSubject()).isEqualTo("7");
+        assertThatThrownBy(() -> decoder.decode(foreignToken)).isInstanceOf(JwtValidationException.class);
     }
 
     @Test

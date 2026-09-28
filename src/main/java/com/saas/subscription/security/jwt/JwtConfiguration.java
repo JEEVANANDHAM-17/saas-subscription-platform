@@ -21,26 +21,23 @@ class JwtConfiguration {
     private static final int MINIMUM_SECRET_BYTES = 32;
 
     @Bean
-    JwtEncoder jwtEncoder(JwtProperties properties)
-    {
+    JwtEncoder jwtEncoder(JwtProperties properties) {
         return NimbusJwtEncoder.withSecretKey(secretKey(properties))
                 .algorithm(MacAlgorithm.HS256)
                 .build();
     }
 
+    // Validates the Bearer token on every protected request: signature, expiry and issuer.
     @Bean
-    JwtDecoder jwtDecoder(JwtProperties properties)
-    {
-        NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withSecretKey(secretKey(properties))
+    JwtDecoder jwtDecoder(JwtProperties properties) {
+        NimbusJwtDecoder decoder = NimbusJwtDecoder.withSecretKey(secretKey(properties))
                 .macAlgorithm(MacAlgorithm.HS256)
                 .build();
-        // Besides the signature, reject tokens that are expired or were issued by someone else.
-        jwtDecoder.setJwtValidator(JwtValidators.createDefaultWithIssuer(properties.issuer()));
-        return jwtDecoder;
+        decoder.setJwtValidator(JwtValidators.createDefaultWithIssuer(properties.issuer()));
+        return decoder;
     }
 
-    private static SecretKey secretKey(JwtProperties properties)
-    {
+    private static SecretKey secretKey(JwtProperties properties) {
         byte[] secretBytes;
         try
         {
