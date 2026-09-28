@@ -1,0 +1,24 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "backend",
+      "runtimeExecutable": "java",
+      "runtimeArgs": [
+        "-jar", "C:\\Projects - jeeva\\saas-subscription-platform\\build\\libs\\saas-subscription-service-0.0.1-SNAPSHOT.jar",
+        "--server.port=8081"
+      ],
+      "port": 8081
+    },
+    {
+      "name": "frontend",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "C:\\Projects - jeeva\\saas-subscription-platform\\frontend\\node_modules\\vite\\bin\\vite.js",
+        "C:\\Projects - jeeva\\saas-subscription-platform\\frontend"
+      ],
+      "port": 5180,
+      "env": { "API_TARGET": "http://localhost:8081" }
+    }
+  ]
+}
