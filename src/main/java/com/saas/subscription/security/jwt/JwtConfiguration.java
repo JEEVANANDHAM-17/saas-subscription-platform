@@ -4,7 +4,10 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.JwtValidators;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 
 import javax.crypto.SecretKey;
@@ -19,6 +22,22 @@ class JwtConfiguration {
 
     @Bean
     JwtEncoder jwtEncoder(JwtProperties properties) {
+        return NimbusJwtEncoder.withSecretKey(secretKey(properties))
+                .algorithm(MacAlgorithm.HS256)
+                .build();
+    }
+
+    // Validates the Bearer token on every protected request: signature, expiry and issuer.
+    @Bean
+    JwtDecoder jwtDecoder(JwtProperties properties) {
+        NimbusJwtDecoder decoder = NimbusJwtDecoder.withSecretKey(secretKey(properties))
+                .macAlgorithm(MacAlgorithm.HS256)
+                .build();
+        decoder.setJwtValidator(JwtValidators.createDefaultWithIssuer(properties.issuer()));
+        return decoder;
+    }
+
+    private static SecretKey secretKey(JwtProperties properties) {
         byte[] secretBytes;
         try {
             secretBytes = Base64.getDecoder().decode(properties.secret());
@@ -30,9 +49,6 @@ class JwtConfiguration {
             throw new IllegalStateException("app.jwt.secret must contain at least 32 bytes");
         }
 
-        SecretKey secretKey = new SecretKeySpec(secretBytes, "HmacSHA256");
-        return NimbusJwtEncoder.withSecretKey(secretKey)
-                .algorithm(MacAlgorithm.HS256)
-                .build();
+        return new SecretKeySpec(secretBytes, "HmacSHA256");
     }
 }

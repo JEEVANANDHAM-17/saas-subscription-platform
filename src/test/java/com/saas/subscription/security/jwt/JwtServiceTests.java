@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtValidationException;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 
 import javax.crypto.SecretKey;
@@ -18,6 +19,7 @@ import tools.jackson.databind.json.JsonMapper;
 import tools.jackson.databind.PropertyNamingStrategies;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class JwtServiceTests {
 
@@ -55,6 +57,26 @@ class JwtServiceTests {
     }
 
     @Test
+    void configuredDecoderAcceptsOwnTokensAndRejectsOtherIssuers() {
+        JwtProperties properties = properties("https://api.jeevanandham.subscription");
+        JwtProperties otherIssuer = properties("https://someone-else.example");
+        JwtConfiguration configuration = new JwtConfiguration();
+        UsersTable user = UsersTable.builder()
+                .userID(7L)
+                .userEmail("user@example.com")
+                .build();
+
+        String ownToken = new JwtService(new BCryptPasswordEncoder(), configuration.jwtEncoder(properties), properties)
+                .generateJWTToken(user).accessToken();
+        String foreignToken = new JwtService(new BCryptPasswordEncoder(), configuration.jwtEncoder(otherIssuer), otherIssuer)
+                .generateJWTToken(user).accessToken();
+        JwtDecoder decoder = configuration.jwtDecoder(properties);
+
+        assertThat(decoder.decode(ownToken).getSubject()).isEqualTo("7");
+        assertThatThrownBy(() -> decoder.decode(foreignToken)).isInstanceOf(JwtValidationException.class);
+    }
+
+    @Test
     void serializesLoginResponseAsJson() {
         UserLoginResponse response = new UserLoginResponse(
                 "Login successful",
@@ -72,6 +94,10 @@ class JwtServiceTests {
                 "{\"message\":\"Login successful\",\"access_token\":\"signed.jwt.token\"," +
                         "\"token_type\":\"Bearer\",\"expires_in\":3600}"
         );
+    }
+
+    private static JwtProperties properties(String issuer) {
+        return new JwtProperties(Base64.getEncoder().encodeToString(SECRET_BYTES), issuer, Duration.ofHours(1));
     }
 
     private JwtDecoder decoder() {

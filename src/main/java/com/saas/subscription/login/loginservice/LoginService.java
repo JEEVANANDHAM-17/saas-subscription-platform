@@ -8,8 +8,10 @@ import com.saas.subscription.login.loginrepository.LoginRepository;
 import com.saas.subscription.security.jwt.JwtService;
 import com.saas.subscription.security.jwt.JwtToken;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 
 @RequiredArgsConstructor
@@ -22,10 +24,16 @@ public class LoginService {
 
     public void userSignUP(UserSignupRequest userLoginRequest)
     {
+        if (loginRepository.findByUserEmail(userLoginRequest.getUserEmail()).isPresent())
+        {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Email already registered");
+        }
+
         UsersTable usersTable = UsersTable.builder()
                 .userEmail(userLoginRequest.getUserEmail())
                 .passwordHash(jwtService.encodePassword(userLoginRequest.getUserPassword()))
                 .firstName(userLoginRequest.getFirstName())
+                .lastName(userLoginRequest.getLastName())
                 .build();
 
         loginRepository.save(usersTable);
